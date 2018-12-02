@@ -3,6 +3,7 @@ package com.davemac.aoc.day1;
 import com.davemac.aoc.utils.FileUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,6 +29,15 @@ public class ChronalCalibration {
     }
 
     /**
+     * Part two.
+     * @param file Your input file.
+     * @return The first duplicate frequency.
+     */
+    public Integer solvePartTwo(File file) {
+        return solvePartTwo(0, new ArrayList<>(), file);
+    }
+
+    /**
      * Part 2.
      *
      * @param frequency   The initial frequency.
@@ -35,7 +45,7 @@ public class ChronalCalibration {
      * @param file        Your input list.
      * @return The first duplicate frequency.
      */
-    public Integer solvePartTwo(Integer frequency, List<Integer> frequencies, File file) {
+    private Integer solvePartTwo(Integer frequency, List<Integer> frequencies, File file) {
         Scanner scanner = FileUtils.getScanner(file);
         while (scanner.hasNextLine()) {
             frequency += (scanner.nextInt());
