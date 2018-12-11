@@ -24,7 +24,7 @@ public class ChronalCalibration {
         while (scanner.hasNextLine()) {
             total += (scanner.nextInt());
         }
-
+        scanner.close();
         return total;
     }
 

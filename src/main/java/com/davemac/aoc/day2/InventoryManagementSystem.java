@@ -26,6 +26,7 @@ public class InventoryManagementSystem {
                 threes = threes + 1;
             }
         }
+        scanner.close();
         return twos * threes;
     }
 
