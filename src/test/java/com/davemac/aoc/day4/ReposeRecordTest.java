@@ -11,12 +11,12 @@ public class ReposeRecordTest {
     private static ReposeRecord reposeRecord;
     @BeforeClass
     public static void setup(){
-        reposeRecord = new ReposeRecord();
+        reposeRecord = new ReposeRecord(INPUT_FILE);
     }
 
     @Test
     public void testPartOne() {
-        int result = reposeRecord.solvePartOne(INPUT_FILE);
+        int result = reposeRecord.solvePartOne();
         TestUtils.report("4", "1", Integer.toString(result));
     }
 }
