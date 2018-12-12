@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public class NoMatterHowYouSliceIt {
 
-    private Map<Integer, Map<Integer, List>> fabric;
+    private Map<Integer, Map<Integer, List<String>>> fabric;
 
     /**
      * Constructor.
@@ -33,8 +33,8 @@ public class NoMatterHowYouSliceIt {
 
         while (scanner.hasNext()) {
             Claim claim = new Claim(scanner.nextLine());
-            for (int i = claim.top; i < claim.top + claim.height; i++) {
-                for (int j = claim.left; j < claim.left + claim.width; j++) {
+            for (int i = claim.getTop(); i < claim.getTop() + claim.getHeight(); i++) {
+                for (int j = claim.getLeft(); j < claim.getLeft() + claim.getWidth(); j++) {
                     populateFabricPosition(claim, i, j);
                 }
             }
@@ -50,21 +50,21 @@ public class NoMatterHowYouSliceIt {
      * @param j     The vertical position in the fabric of the claimed spot.
      */
     private void populateFabricPosition(Claim claim, int i, int j) {
-        Map<Integer, List> integerListMap = this.fabric.get(i);
+        Map<Integer, List<String>> integerListMap = this.fabric.get(i);
 
         if (integerListMap == null) {
             this.fabric.put(i, new HashMap<>());
             integerListMap = this.fabric.get(i);
         }
 
-        List list = integerListMap.get(j);
+        List<String> list = integerListMap.get(j);
 
         if (list == null) {
             integerListMap.put(j, new ArrayList<>());
             list = integerListMap.get(j);
         }
 
-        list.add(claim.id);
+        list.add(claim.getId());
     }
 
     /**
@@ -74,8 +74,8 @@ public class NoMatterHowYouSliceIt {
      */
     public int solvePartOne() {
         int inches = 0;
-        for (Map.Entry<Integer, Map<Integer, List>> f1: fabric.entrySet()) {
-            for (Map.Entry<Integer, List> f2: f1.getValue().entrySet()) {
+        for (Map.Entry<Integer, Map<Integer, List<String>>> f1 : fabric.entrySet()) {
+            for (Map.Entry<Integer, List<String>> f2 : f1.getValue().entrySet()) {
                 if (f2.getValue().size() >= 2) {
                     inches++;
                 }
@@ -93,16 +93,13 @@ public class NoMatterHowYouSliceIt {
     public String solvePartTwo() {
         Set<String> singleClaims = new HashSet<>();
         Set<String> duplicateClaims = new HashSet<>();
-        for (Integer k1 : fabric.keySet()) {
-            Map<Integer, List> integerListMap = fabric.get(k1);
-            for (Integer k2 : integerListMap.keySet()) {
-                List<String> list = integerListMap.get(k2);
+        for (Map.Entry<Integer, Map<Integer, List<String>>> f1 : fabric.entrySet()) {
+            for (Map.Entry<Integer, List<String>> f2 : f1.getValue().entrySet()) {
+                List<String> list = f2.getValue();
                 if (list.size() == 1) {
                     singleClaims.add(list.get(0));
                 } else {
-                    for (String s : list) {
-                        duplicateClaims.add(s);
-                    }
+                    duplicateClaims.addAll(list);
                 }
             }
         }
@@ -117,12 +114,12 @@ public class NoMatterHowYouSliceIt {
      * Private class to represent Claim information.
      */
     private class Claim {
-        private static final String PATTERN = "^\\#(\\d+?)\\s\\@\\s(\\d+?),(\\d+?)\\:\\s(\\d+?)x(\\d+?)$";
-        public String id;
-        public int height;
-        public int width;
-        public int top;
-        public int left;
+        private static final String PATTERN = "^#(\\d+?)\\s@\\s(\\d+?),(\\d+?):\\s(\\d+?)x(\\d+?)$";
+        private String id;
+        private int height;
+        private int width;
+        private int top;
+        private int left;
 
         /**
          * Constructor taking in a claim line and parsing it's information locally.
@@ -139,6 +136,26 @@ public class NoMatterHowYouSliceIt {
                 this.width = Integer.parseInt(matcher.group(4));
                 this.height = Integer.parseInt(matcher.group(5));
             }
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getTop() {
+            return top;
+        }
+
+        public int getLeft() {
+            return left;
         }
     }
 }
