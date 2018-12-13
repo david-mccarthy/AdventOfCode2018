@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class AlchemicalReduction {
-    private String[] split;
+    private String[] inputs;
 
     /**
      * Constructor.
@@ -21,8 +21,7 @@ public class AlchemicalReduction {
         Scanner scanner = FileUtils.getScanner(file);
         String input = scanner.nextLine();
         scanner.close();
-        split = input.split("");
-
+        inputs = input.split("");
     }
 
     /**
@@ -31,7 +30,7 @@ public class AlchemicalReduction {
      * @return The size of the processed input string.
      */
     public int solvePartOne() {
-        return process(split).size();
+        return process(inputs).size();
     }
 
     /**
@@ -43,7 +42,7 @@ public class AlchemicalReduction {
         String[] chars = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
         int shortestReduction = Integer.MAX_VALUE;
         for (String c : chars) {
-            Stack<String> s = process(split, c);
+            Stack<String> s = process(inputs, c);
             List<String> strings = new ArrayList<>(s);
             Stack<String> reducedStack = process(strings.toArray(new String[0]));
             int size = reducedStack.size();
@@ -52,7 +51,7 @@ public class AlchemicalReduction {
                 shortestReduction = size;
             }
         }
-        
+
         return shortestReduction;
     }
 
@@ -68,7 +67,7 @@ public class AlchemicalReduction {
         for (String s : list) {
             stack.push(s);
 
-            if (stack.size() >= 1) {
+            if (!stack.isEmpty()) {
                 String a = stack.pop();
 
                 if (!(match.equalsIgnoreCase(a))) {
