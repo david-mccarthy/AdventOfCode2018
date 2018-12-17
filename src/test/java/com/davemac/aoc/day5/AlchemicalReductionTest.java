@@ -2,6 +2,7 @@ package com.davemac.aoc.day5;
 
 import com.davemac.aoc.TestUtils;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,6 +29,7 @@ public class AlchemicalReductionTest {
         TestUtils.report("5","2", Integer.toString(s));
     }
 
+    @Ignore
     @Test
     public void testPartOneWithSampleData() {
         int s = new AlchemicalReduction(SAMPLE_FILE).solvePartOne();
